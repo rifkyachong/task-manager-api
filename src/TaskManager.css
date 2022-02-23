@@ -50,6 +50,11 @@
   transition: 0.5s;
 }
 
+.complete-icon {
+  cursor: "default";
+  color: "green";
+}
+
 .task-name {
   margin: 0 auto 0 0;
 }
@@ -57,5 +62,4 @@
 .clear-all-btn {
   background-color: white;
   border-radius: 0.25rem;
-  box-shadow: 0 0.25rem 0.5rem rgb(0 0 0 / 15%);
 }
