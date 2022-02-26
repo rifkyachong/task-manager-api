@@ -6,13 +6,14 @@ import "./index.css";
 
 import TaskEdit from "./TaskEdit";
 import TaskManager from "./TaskManager";
-// import NotFound from "./NotFound.js";
+import NotFound from "./NotFound";
 
 ReactDOM.render(
   <Router>
     <Routes>
       <Route exact path="/" element={<TaskManager />} />
       <Route path="/task/:id" element={<TaskEdit />} />
+      <Route path="/:path" element={<NotFound />} />
     </Routes>
   </Router>,
   document.getElementById("root")

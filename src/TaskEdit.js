@@ -5,15 +5,19 @@ import "./TaskEdit.css";
 
 export default function TaskEdit() {
   const { id: taskID } = useParams();
+  const [err, setErr] = useState(null);
   const [name, setName] = useState("");
   const [complete, setComplete] = useState(false);
 
   const fetchData = async () => {
-    // what is the root directory? is it '/' or '/task/:id
-    const { data: task } = await axios.get(`/api/v1/tasks/${taskID}`);
-    console.log(task);
-    setName(task.name);
-    setComplete(task.complete);
+    try {
+      const response = await axios.get(`/api/v1/tasks/${taskID}`);
+      setName(response.data.name);
+      setComplete(response.data.complete);
+    } catch (error) {
+      console.log(error.response.data);
+      setErr({ msg: error.response.data.msg });
+    }
   };
 
   const updateTask = async () => {
@@ -26,6 +30,17 @@ export default function TaskEdit() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  if (err) {
+    return (
+      <div id="app-container">
+        <form id="task-input-area" className="card">
+          <h2 id="title">Edit Task</h2>
+          <p>{err.msg}</p>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div id="app-container">

@@ -9,7 +9,6 @@ export default function TaskManager() {
 
   const fetchData = async () => {
     const { data } = await axios.get("/api/v1/tasks");
-    console.log(data);
     setListItem(data.tasks);
   };
 

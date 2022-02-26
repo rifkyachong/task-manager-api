@@ -1,21 +1,28 @@
+// pre-process (all imports)
 const express = require("express");
 const connectDB = require("./database/connect");
 require("dotenv").config();
+const tasksApi = require("./router/tasks-api");
+const errorHandler = require("./middleware/error-handler");
 
+// server metadata
 const appServer = express();
 const port = 8080;
-// router
-const tasks = require("./router/tasks");
 
+// middleware
 appServer.use(express.static("public"));
 appServer.use(express.json());
-appServer.use("/api/v1/tasks", tasks);
-appServer.use((req, res, next) => {
-  console.log("use method called");
-  next();
-});
-appServer.use("/task/:id", express.static("public"));
 
+// router
+appServer.use("/api/v1/tasks", tasksApi);
+
+// catch-all
+appServer.get("*", (req, res, next) => {
+  res.status(200).sendFile(__dirname + "/public/index.html");
+});
+appServer.use(errorHandler);
+
+// start the server
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
